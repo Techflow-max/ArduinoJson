@@ -26,9 +26,17 @@ class JsonArray {
   typedef JsonArrayIterator iterator;
 
   FORCE_INLINE JsonArray() : _memoryPool(0), _data(0) {}
-  FORCE_INLINE JsonArray(Internals::MemoryPool* buf,
+  FORCE_INLINE JsonArray(Internals::MemoryPool* pool,
                          Internals::JsonArrayData* arr)
-      : _memoryPool(buf), _data(arr) {}
+      : _memoryPool(pool), _data(arr) {}
+
+  operator JsonVariant() {
+    using namespace Internals;
+    return JsonVariant(_memoryPool,
+                       reinterpret_cast<JsonVariantData*>(
+                           reinterpret_cast<char*>(_data) -
+                           offsetof(JsonVariantData, content.asArray)));
+  }
 
   // Adds the specified value at the end of the array.
   //
