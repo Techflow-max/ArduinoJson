@@ -18,3 +18,17 @@ TEST_CASE("JsonVariant from JsonArray") {
   REQUIRE(v[0] == 12);
   REQUIRE(v[1] == 34);
 }
+
+TEST_CASE("JsonVariant from JsonObject") {
+  DynamicJsonDocument doc;
+  JsonObject obj = doc.to<JsonObject>();
+  obj["a"] = 12;
+  obj["b"] = 34;
+
+  JsonVariant v = obj;
+
+  REQUIRE(v.is<JsonObject>() == true);
+  REQUIRE(v.size() == 2);
+  REQUIRE(v["a"] == 12);
+  REQUIRE(v["b"] == 34);
+}
