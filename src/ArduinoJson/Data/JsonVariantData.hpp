@@ -159,17 +159,19 @@ struct JsonVariantData {
 };
 
 inline JsonVariantData *getVariantData(JsonArrayData *arr) {
+  const ptrdiff_t offset = offsetof(JsonVariantData, content) -
+                           offsetof(JsonVariantContent, asArray);
   if (!arr) return 0;
-  return reinterpret_cast<JsonVariantData *>(
-      reinterpret_cast<char *>(arr) -
-      offsetof(JsonVariantData, content.asArray));
+  return reinterpret_cast<JsonVariantData *>(reinterpret_cast<char *>(arr) -
+                                             offset);
 }
 
 inline JsonVariantData *getVariantData(JsonObjectData *obj) {
+  const ptrdiff_t offset = offsetof(JsonVariantData, content) -
+                           offsetof(JsonVariantContent, asObject);
   if (!obj) return 0;
-  return reinterpret_cast<JsonVariantData *>(
-      reinterpret_cast<char *>(obj) -
-      offsetof(JsonVariantData, content.asObject));
+  return reinterpret_cast<JsonVariantData *>(reinterpret_cast<char *>(obj) -
+                                             offset);
 }
 }  // namespace Internals
 }  // namespace ArduinoJson
