@@ -6,17 +6,25 @@
 #include <catch.hpp>
 
 TEST_CASE("JsonVariant from JsonArray") {
-  DynamicJsonDocument doc;
-  JsonArray arr = doc.to<JsonArray>();
-  arr.add(12);
-  arr.add(34);
+  SECTION("JsonArray is null") {
+    JsonArray arr;
+    JsonVariant v = arr;
+    REQUIRE(v.isNull() == true);
+  }
 
-  JsonVariant v = arr;
+  SECTION("JsonArray is not null") {
+    DynamicJsonDocument doc;
+    JsonArray arr = doc.to<JsonArray>();
+    arr.add(12);
+    arr.add(34);
 
-  REQUIRE(v.is<JsonArray>() == true);
-  REQUIRE(v.size() == 2);
-  REQUIRE(v[0] == 12);
-  REQUIRE(v[1] == 34);
+    JsonVariant v = arr;
+
+    REQUIRE(v.is<JsonArray>() == true);
+    REQUIRE(v.size() == 2);
+    REQUIRE(v[0] == 12);
+    REQUIRE(v[1] == 34);
+  }
 }
 
 TEST_CASE("JsonVariant from JsonObject") {

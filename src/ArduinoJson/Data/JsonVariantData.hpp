@@ -157,5 +157,12 @@ struct JsonVariantData {
     return type == JSON_LINKED_STRING || type == JSON_OWNED_STRING;
   }
 };
+
+inline JsonVariantData *getVariantData(JsonArrayData *arr) {
+  if (!arr) return 0;
+  return reinterpret_cast<JsonVariantData *>(
+      reinterpret_cast<char *>(arr) -
+      offsetof(JsonVariantData, content.asArray));
+}
 }  // namespace Internals
 }  // namespace ArduinoJson

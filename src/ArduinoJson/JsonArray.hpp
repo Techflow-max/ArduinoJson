@@ -32,10 +32,7 @@ class JsonArray {
 
   operator JsonVariant() {
     using namespace Internals;
-    return JsonVariant(_memoryPool,
-                       reinterpret_cast<JsonVariantData*>(
-                           reinterpret_cast<char*>(_data) -
-                           offsetof(JsonVariantData, content.asArray)));
+    return JsonVariant(_memoryPool, getVariantData(_data));
   }
 
   // Adds the specified value at the end of the array.
