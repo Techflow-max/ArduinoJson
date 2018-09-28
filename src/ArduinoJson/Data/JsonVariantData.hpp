@@ -164,5 +164,12 @@ inline JsonVariantData *getVariantData(JsonArrayData *arr) {
       reinterpret_cast<char *>(arr) -
       offsetof(JsonVariantData, content.asArray));
 }
+
+inline JsonVariantData *getVariantData(JsonObjectData *obj) {
+  if (!obj) return 0;
+  return reinterpret_cast<JsonVariantData *>(
+      reinterpret_cast<char *>(obj) -
+      offsetof(JsonVariantData, content.asObject));
+}
 }  // namespace Internals
 }  // namespace ArduinoJson

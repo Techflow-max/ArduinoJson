@@ -28,15 +28,23 @@ TEST_CASE("JsonVariant from JsonArray") {
 }
 
 TEST_CASE("JsonVariant from JsonObject") {
-  DynamicJsonDocument doc;
-  JsonObject obj = doc.to<JsonObject>();
-  obj["a"] = 12;
-  obj["b"] = 34;
+  SECTION("JsonObject is null") {
+    JsonObject obj;
+    JsonVariant v = obj;
+    REQUIRE(v.isNull() == true);
+  }
 
-  JsonVariant v = obj;
+  SECTION("JsonObject is not null") {
+    DynamicJsonDocument doc;
+    JsonObject obj = doc.to<JsonObject>();
+    obj["a"] = 12;
+    obj["b"] = 34;
 
-  REQUIRE(v.is<JsonObject>() == true);
-  REQUIRE(v.size() == 2);
-  REQUIRE(v["a"] == 12);
-  REQUIRE(v["b"] == 34);
+    JsonVariant v = obj;
+
+    REQUIRE(v.is<JsonObject>() == true);
+    REQUIRE(v.size() == 2);
+    REQUIRE(v["a"] == 12);
+    REQUIRE(v["b"] == 34);
+  }
 }

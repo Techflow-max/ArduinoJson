@@ -26,10 +26,7 @@ class JsonObject {
 
   operator JsonVariant() {
     using namespace Internals;
-    return JsonVariant(_memoryPool,
-                       reinterpret_cast<JsonVariantData*>(
-                           reinterpret_cast<char*>(_data) -
-                           offsetof(JsonVariantData, content.asObject)));
+    return JsonVariant(_memoryPool, getVariantData(_data));
   }
 
   FORCE_INLINE iterator begin() const {
