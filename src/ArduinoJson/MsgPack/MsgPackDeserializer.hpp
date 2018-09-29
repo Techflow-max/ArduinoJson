@@ -281,9 +281,9 @@ class MsgPackDeserializer {
       JsonVariant key(_memoryPool, &keyData);
       DeserializationError err = parse(key);
       if (err) return err;
-      if (!keyData.isString()) return DeserializationError::NotSupported;
+      if (!key.is<char *>()) return DeserializationError::NotSupported;
 
-      JsonVariant value = object.set(keyData.asString());
+      JsonVariant value = object.set(keyData.content.asString);
       if (value.isInvalid()) return DeserializationError::NoMemory;
 
       err = parse(value);
