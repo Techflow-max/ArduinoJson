@@ -410,14 +410,12 @@ class JsonVariant : public Internals::JsonVariantBase<JsonVariant> {
   Internals::JsonVariantData *_data;
 };
 
-class JsonVariantLocal : public JsonVariant {
+class JsonVariantLocal : private Internals::JsonVariantData,
+                         public JsonVariant {
  public:
-  explicit JsonVariantLocal(Internals::MemoryPool *_memoryPool)
-      : JsonVariant(_memoryPool, &_data) {
-    _data.type = Internals::JSON_NULL;
+  explicit JsonVariantLocal(Internals::MemoryPool *memoryPool)
+      : JsonVariant(memoryPool, this) {
+    type = Internals::JSON_NULL;
   }
-
- private:
-  Internals::JsonVariantData _data;
 };
 }  // namespace ArduinoJson
